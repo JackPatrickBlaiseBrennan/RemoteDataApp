@@ -2,12 +2,16 @@ import { Text, View } from 'react-native';
 import {styles} from './stylesheet';
 import { useDealsContext } from '../models/dealsContext';
 
-export default function DealsList() {
-    const {dealsState} = useDealsContext();
+type ItemObject = {
+  items: any,
+  isDataFetched: boolean,
+}
+
+export default function ItemList({items, isDataFetched}: ItemObject) {
   return (
     <View style={styles.container}>
-        { dealsState.deals.length > 0 
-        ? <Text>Deals</Text>
+        { isDataFetched
+        ? items.map((item: any) => (<Text key={item.key}>{item.title}</Text>))
         : <Text>Fetcing</Text>
         }
     </View>
