@@ -12,5 +12,10 @@ export const styles = StyleSheet.create({
       backgroundColor: '#fff',
       width:'100%',
       paddingTop: 50,
-    }
+    },
+    item:{},
+    image:{
+      width:'100%',
+      height: 150,
+    },
   });
