@@ -7,4 +7,10 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    list:{
+      flex: 1,
+      backgroundColor: '#fff',
+      width:'100%',
+      paddingTop: 50,
+    }
   });

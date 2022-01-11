@@ -1,6 +1,5 @@
-import { Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import {styles} from './stylesheet';
-import { useDealsContext } from '../models/dealsContext';
 
 type ItemObject = {
   items: any,
@@ -9,9 +8,12 @@ type ItemObject = {
 
 export default function ItemList({items, isDataFetched}: ItemObject) {
   return (
-    <View style={styles.container}>
+    <View style={styles.list}>
         { isDataFetched
-        ? items.map((item: any) => (<Text key={item.key}>{item.title}</Text>))
+        ? <FlatList
+          data = {items}
+          renderItem={({item}) => <Text>{item.title}</Text>}
+        />
         : <Text>Fetcing</Text>
         }
     </View>
