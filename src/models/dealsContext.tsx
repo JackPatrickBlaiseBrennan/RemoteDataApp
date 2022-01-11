@@ -4,12 +4,16 @@ const initialState: any = {
     deals: [],
   };
 
+type actionType = {
+  input: any
+}
+
 const DealsContext = createContext(initialState);
  
 // initial reducer
-const dealsReducer = (state: any, action: any) => {
-    const deals = [action.input]
-    return {...state, deals};
+const dealsReducer = (state: any, action: actionType) => {
+    const deals = action.input.input
+    return { deals };
 };
 
 
