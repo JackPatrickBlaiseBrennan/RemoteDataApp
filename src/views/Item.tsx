@@ -16,9 +16,13 @@ export default function Item({mediaLink, title, price, cause}: ItemObject) {
             <Image source={{uri:mediaLink}}
                 style={styles.image}
             />
-            <Text>{title}</Text>
-            <Text>{centsToEuro(price)}</Text>
-            <Text>{cause}</Text>
+            <View style={styles.info}>
+                <Text style={styles.title}>{title}</Text>
+                <View style={styles.footer}>
+                    <Text style={styles.cause}>{cause}</Text>
+                    <Text style={styles.price}>{centsToEuro(price)}</Text>
+                </View>
+            </View>
       </View>
     );
   }

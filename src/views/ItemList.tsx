@@ -7,7 +7,6 @@ type ItemsObject = {
 }
 
 export default function ItemList({items, isDataFetched}: ItemsObject) {
-  console.log(items)
   return (
     <View style={styles.list}>
         { isDataFetched
