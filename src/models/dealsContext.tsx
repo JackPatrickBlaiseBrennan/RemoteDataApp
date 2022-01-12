@@ -1,19 +1,33 @@
 import { useReducer, createContext, useContext, useMemo } from "react";
 
-const initialState: any = {
+const initialState: stateType = {
     deals: [],
+    currentDealId: null,
   };
 
 type actionType = {
-  input: any
+  operation: string,
+  input: any,
 }
-
+type stateType = {
+  deals: any[],
+  currentDealId: number | null,
+}
 const DealsContext = createContext(initialState);
  
 // initial reducer
-const dealsReducer = (state: any, action: actionType) => {
-    const deals = action.input.input
-    return { deals };
+const dealsReducer = (state: any, action: actionType): stateType => {
+  switch(action.operation){
+    case 'FETCH':
+      const deals = action.input;
+      return { deals, currentDealId: null};
+    case 'SET_CURR_DEAL':
+      const currentDealId = action.input;
+      console.log({...state, currentDealId})
+      return {...state, currentDealId}
+    default:
+      return {...state};
+  }
 };
 
 
@@ -36,10 +50,13 @@ export const useDealsContext = () => {
     throw new Error('useDealsContext must be used inside a DealsProvider');
   }
 
-  const updateState = (input: any) => {
-    dispatch({ input: { input } });
+  const fetchState = (input: any) => {
+    dispatch({operation:'FETCH', input:input });
+  };
+  const setCurrentDealId = (input: any) => {
+    dispatch({operation:'SET_CURR_DEAL', input:input})
   };
 
 
-  return { dealsState, updateState };
+  return { dealsState, fetchState , setCurrentDealId};
 };
