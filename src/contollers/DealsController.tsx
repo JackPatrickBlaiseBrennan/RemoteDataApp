@@ -4,13 +4,20 @@ import ItemList from '../views/ItemList';
 import DetailedView from '../views/DetailedView';
 
 export default function DealsController() {
-  const {dealsState, fetchState, setCurrentDealId} = useDealsContext();
+  const {dealsState, setInitalState, setCurrentDealId, setDetailDeal} = useDealsContext();
   const isViewingDetailedView = dealsState.currentDealId !== null;
   const currentDeal = dealsState.deals.find((deal: any) => deal.key === dealsState.currentDealId)
   useEffect(() => {
-      const initDeals = async () => (fetchState(await fetchInitalDeals()));
+      const initDeals = async () => {
+        console.log("EFFECT")
+        if (!isViewingDetailedView){
+          setInitalState(await fetchInitalDeals());
+        }
+        else{setDetailDeal(await fetchDetailedDeal(currentDeal.key))}
+      };
       initDeals();
-    }, [])
+    }, [isViewingDetailedView])
+    console.log(dealsState.detailedDeal)
     return (
       <>
         { isViewingDetailedView 
@@ -37,4 +44,15 @@ const apiHost = 'https://bakesaleforgood.com'
     catch(error){
         console.log(error);
     }
+}
+
+async function fetchDetailedDeal(dealId: string){
+  try{
+      let response = await fetch(apiHost + '/api/deals/' + dealId);
+      let responseJSON = await response.json();
+      return responseJSON;
+  }
+  catch(error){
+      console.log(error);
+  }
 }
