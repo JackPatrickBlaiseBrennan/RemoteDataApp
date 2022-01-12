@@ -19,7 +19,7 @@ export default function Item({mediaLink, title, price, cause, dataKey, pressEven
     return (
         <TouchableOpacity onPress={handlePress} style={styles.item}>
             <Image source={{uri:mediaLink}}
-                style={styles.image}
+                style={styles.headerImage}
             />
             <View style={styles.info}>
                 <Text style={styles.title}>{title}</Text>

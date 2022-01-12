@@ -18,12 +18,16 @@ export const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor:'lightgrey',
     },
-    image:{
+    headerImage:{
       width:'100%',
       height: 150,
     },
     footer:{
       flexDirection:'row',
+    },
+    footerDetailed:{
+      flexDirection:'row',
+      marginBottom:10,
     },
     price:{
       textAlign:'right',
@@ -38,5 +42,12 @@ export const styles = StyleSheet.create({
     },
     info:{
       padding: 15
-    }
+    },
+    avatar:{
+      width:60,
+      height:60,
+    },
+    detailedView:{
+      marginTop:30,
+    },
   });
