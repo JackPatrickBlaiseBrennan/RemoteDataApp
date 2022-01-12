@@ -4,12 +4,12 @@ import ItemList from '../views/ItemList';
 import DetailedView from '../views/DetailedView';
 
 export default function DealsController() {
-  const {dealsState, setInitalState, setCurrentDealId, setDetailDeal} = useDealsContext();
+  const {dealsState, setInitalState, setCurrentDealId, setDetailDeal, unsetCurrentlDeal} = useDealsContext();
   const isViewingDetailedView = dealsState.currentDealId !== null;
   const currentDeal = dealsState.deals.find((deal: any) => deal.key === dealsState.currentDealId)
+  const isDetailDeal = dealsState.detailedDeal !== null;
   useEffect(() => {
       const initDeals = async () => {
-        console.log("EFFECT")
         if (!isViewingDetailedView){
           setInitalState(await fetchInitalDeals());
         }
@@ -17,16 +17,20 @@ export default function DealsController() {
       };
       initDeals();
     }, [isViewingDetailedView])
-    console.log(dealsState.detailedDeal)
     return (
       <>
         { isViewingDetailedView 
-          ? <DetailedView
-              mediaLink={currentDeal.media[0]}
-              title={currentDeal.title}
-              price={currentDeal.price}
-              cause={currentDeal.cause.name}
-          />
+          ? (isDetailDeal &&
+            <DetailedView
+            headerMediaLink={currentDeal.media[0]}
+            title={currentDeal.title}
+            price={currentDeal.price}
+            cause={currentDeal.cause.name}
+            avatarMedialink={dealsState.detailedDeal.user.avatar}
+            userTitle={dealsState.detailedDeal.user.name}
+            description={dealsState.detailedDeal.description}
+            backAction={unsetCurrentlDeal}
+        /> )
           : <ItemList items={dealsState.deals} isDataFetched={dealsState.deals.length > 0} pressEvent={setCurrentDealId}/>
         }
       </>
