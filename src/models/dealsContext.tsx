@@ -22,13 +22,17 @@ const dealsReducer = (state: any, action: actionType): stateType => {
   switch(action.operation){
     case 'SET_INIT':
       const deals = action.input;
-      return { deals, currentDealId: null, detailedDeal: null};
+      return {...state, deals};
     case 'SET_CURR_DEAL':
       const currentDealId = action.input;
       return {...state, currentDealId}
     case 'SET_DETAIL_DEAL':
       const detailedDeal = action.input;
       return {...state, detailedDeal}
+    case 'UNSET_CURR_DEAL':
+      state.currentDealId = null;
+      console.log(state)
+      return {...state};
     default:
       return {...state};
   }
@@ -63,7 +67,10 @@ export const useDealsContext = () => {
   const setDetailDeal = (input: any) => {
     dispatch({operation:'SET_DETAIL_DEAL', input:input})
   };
+  const unsetCurrentlDeal = () => {
+    dispatch({operation:'UNSET_CURR_DEAL'})
+  };
 
 
-  return { dealsState, setInitalState , setCurrentDealId, setDetailDeal};
+  return { dealsState, setInitalState , setCurrentDealId, setDetailDeal, unsetCurrentlDeal};
 };
