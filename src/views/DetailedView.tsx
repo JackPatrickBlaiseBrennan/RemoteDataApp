@@ -1,4 +1,4 @@
-import {Text, View, Image, TouchableOpacity } from 'react-native';
+import {Text, View, Image } from 'react-native';
 import {styles} from './stylesheet';
 
 type ItemObject = {
@@ -6,18 +6,13 @@ type ItemObject = {
     title: string,
     price: number,
     cause: string,
-    dataKey: any,
-    pressEvent: Function,
   }
 
 const centsToEuro = (centPrice: number) => {return`€${centPrice / 100}`}
 
-export default function Item({mediaLink, title, price, cause, dataKey, pressEvent}: ItemObject) {
-    const handlePress = () => {
-        pressEvent(dataKey);
-    }
+export default function DetailedView({mediaLink, title, price, cause}: ItemObject) {
     return (
-        <TouchableOpacity onPress={handlePress} style={styles.item}>
+        <View style={styles.item}>
             <Image source={{uri:mediaLink}}
                 style={styles.image}
             />
@@ -28,6 +23,6 @@ export default function Item({mediaLink, title, price, cause, dataKey, pressEven
                     <Text style={styles.price}>{centsToEuro(price)}</Text>
                 </View>
             </View>
-      </TouchableOpacity>
+      </View>
     );
   }

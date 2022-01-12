@@ -4,9 +4,10 @@ import Item from './Item';
 type ItemsObject = {
   items: any,
   isDataFetched: boolean,
+  pressEvent: Function,
 }
 
-export default function ItemList({items, isDataFetched}: ItemsObject) {
+export default function ItemList({items, isDataFetched, pressEvent}: ItemsObject) {
   return (
     <View style={styles.list}>
         { isDataFetched
@@ -18,6 +19,8 @@ export default function ItemList({items, isDataFetched}: ItemsObject) {
               title={item.title}
               price={item.price}
               cause={item.cause.name}
+              dataKey={item.key}
+              pressEvent={pressEvent}
             />}
         />
         : <Text>Fetcing</Text>
