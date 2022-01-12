@@ -1,17 +1,27 @@
 import { useEffect } from 'react';
 import { useDealsContext } from '../models/dealsContext';
 import ItemList from '../views/ItemList';
-import DealsList from '../views/ItemList';
+import DetailedView from '../views/DetailedView';
 
 export default function DealsController() {
-  const {dealsState, updateState} = useDealsContext();
+  const {dealsState, fetchState, setCurrentDealId} = useDealsContext();
+  const isViewingDetailedView = dealsState.currentDealId !== null;
+  const currentDeal = dealsState.deals.find((deal: any) => deal.key === dealsState.currentDealId)
   useEffect(() => {
-      const initDeals = async () => (updateState(await fetchInitalDeals()));
+      const initDeals = async () => (fetchState(await fetchInitalDeals()));
       initDeals();
     }, [])
     return (
       <>
-        <ItemList items={dealsState.deals} isDataFetched={dealsState.deals.length > 0}/>
+        { isViewingDetailedView 
+          ? <DetailedView
+              mediaLink={currentDeal.media[0]}
+              title={currentDeal.title}
+              price={currentDeal.price}
+              cause={currentDeal.cause.name}
+          />
+          : <ItemList items={dealsState.deals} isDataFetched={dealsState.deals.length > 0} pressEvent={setCurrentDealId}/>
+        }
       </>
     );
   }
