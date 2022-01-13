@@ -1,5 +1,5 @@
 import {Text, View, Image, TouchableOpacity } from 'react-native';
-import {styles} from './stylesheet';
+import {styles} from '.././stylesheet';
 
 type ItemObject = {
     mediaLink: any,
