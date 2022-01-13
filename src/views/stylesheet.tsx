@@ -1,4 +1,13 @@
-import { StyleSheet,} from 'react-native';
+import { StyleSheet, Dimensions} from 'react-native';
+
+
+export const relativeWidth = (number:number) => {
+  let width = Dimensions.get('window').width;
+  let TestDeviceWidth = 411.42857142857144;
+  let ratio = TestDeviceWidth / number;
+  return width / ratio
+
+}
 
 export const styles = StyleSheet.create({
     container: {
@@ -11,10 +20,10 @@ export const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#fff',
       width:'100%',
-      paddingTop: 50,
+      paddingTop: relativeWidth(50),
     },
     item:{
-      margin: 10,
+      margin: relativeWidth(10),
       borderWidth: 1,
       borderColor:'lightgrey',
     },
@@ -27,7 +36,7 @@ export const styles = StyleSheet.create({
     },
     footerDetailed:{
       flexDirection:'row',
-      marginBottom:10,
+      marginBottom:relativeWidth(10),
     },
     price:{
       textAlign:'right',
@@ -36,12 +45,12 @@ export const styles = StyleSheet.create({
     cause:{
       flex: 2,
     },title:{
-      fontSize: 17,
+      fontSize: relativeWidth(17),
       fontWeight:'bold',
       paddingBottom: 15,
     },
     info:{
-      padding: 15
+      padding: relativeWidth(15)
     },
     avatar:{
       width:60,
@@ -51,7 +60,7 @@ export const styles = StyleSheet.create({
       marginTop:30,
     },
     fetch:{
-      fontSize: 40,
+      fontSize: relativeWidth(40),
       fontWeight: 'bold',
     },
     fetchView:{
@@ -60,8 +69,8 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
     },
     searchbar:{
-      padding:10,
-      margin: 10,
+      padding:relativeWidth(10),
+      margin: relativeWidth(10),
       borderWidth: 1
     },
   });
