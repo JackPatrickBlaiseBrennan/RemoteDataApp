@@ -9,6 +9,7 @@ type ItemObject = {
     avatarMedialink: any,
     userTitle: string,
     description: string,
+    backAction: Function,
   }
 
 const centsToEuro = (centPrice: number) => {return`€${centPrice / 100}`}
