@@ -17,8 +17,8 @@ export default function ChooseView(this: any, {items, isDataFetched, pressEvent,
         if (goLeft) value = relativeWidth(-100);
         else value = relativeWidth(100);
         Animated.timing(titleXPos, {toValue: value, useNativeDriver: false }).start(
-            () => {
-                animateFetching(!goLeft);
+            ({finished}) => {
+                if (finished)animateFetching(!goLeft);
             }
         );
 
