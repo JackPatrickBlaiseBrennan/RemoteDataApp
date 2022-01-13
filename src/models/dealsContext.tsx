@@ -4,6 +4,7 @@ const initialState: stateType = {
     deals: [],
     currentDealId: null,
     detailedDeal: null,
+    searchDeals: null,
   };
 
 type actionType = {
@@ -14,6 +15,7 @@ type stateType = {
   deals: any[],
   currentDealId: number | null,
   detailedDeal: any
+  searchDeals: any[] | null
 }
 const DealsContext = createContext(initialState);
  
@@ -31,8 +33,10 @@ const dealsReducer = (state: any, action: actionType): stateType => {
       return {...state, detailedDeal}
     case 'UNSET_CURR_DEAL':
       state.currentDealId = null;
-      console.log(state)
       return {...state};
+    case 'SET_SERARCH_DEALS':
+      const searchDeals = action.input;
+      return {...state, searchDeals}
     default:
       return {...state};
   }
@@ -70,7 +74,10 @@ export const useDealsContext = () => {
   const unsetCurrentlDeal = () => {
     dispatch({operation:'UNSET_CURR_DEAL'})
   };
+const setSearchDeals = (input: any) => {
+  dispatch({operation:'SET_SERARCH_DEALS', input:input})
+};
 
 
-  return { dealsState, setInitalState , setCurrentDealId, setDetailDeal, unsetCurrentlDeal};
+  return { dealsState, setInitalState , setCurrentDealId, setDetailDeal, unsetCurrentlDeal, setSearchDeals};
 };

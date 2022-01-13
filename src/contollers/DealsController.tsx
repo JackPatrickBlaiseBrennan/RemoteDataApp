@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import { useDealsContext } from '../models/dealsContext';
-import ItemList from '../views/ItemList';
+import ChooseView from '../views/ChooseView';
+
 import DetailedView from '../views/DetailedView';
 
 export default function DealsController() {
-  const {dealsState, setInitalState, setCurrentDealId, setDetailDeal, unsetCurrentlDeal} = useDealsContext();
+  const {dealsState, setInitalState, setCurrentDealId, setDetailDeal, unsetCurrentlDeal, setSearchDeals} = useDealsContext();
   const isViewingDetailedView = dealsState.currentDealId !== null;
   const currentDeal = dealsState.deals.find((deal: any) => deal.key === dealsState.currentDealId)
   const isDetailDeal = dealsState.detailedDeal !== null;
+
   useEffect(() => {
       const initDeals = async () => {
         if (!isViewingDetailedView){
@@ -17,6 +19,14 @@ export default function DealsController() {
       };
       initDeals();
     }, [isViewingDetailedView])
+
+    async function performSearch (searchTerm: string){
+      console.log(searchTerm)
+      if (searchTerm === '') setSearchDeals(null);
+      else setSearchDeals(await fetchSearchedDeals(searchTerm));
+    }
+    const displayDeals = dealsState.searchDeals === null; 
+
     return (
       <>
         { isViewingDetailedView 
@@ -31,13 +41,26 @@ export default function DealsController() {
             description={dealsState.detailedDeal.description}
             backAction={unsetCurrentlDeal}
         /> )
-          : <ItemList items={dealsState.deals} isDataFetched={dealsState.deals.length > 0} pressEvent={setCurrentDealId}/>
+          : displayDeals 
+            ? <ChooseView
+                items={dealsState.deals} 
+                isDataFetched={dealsState.deals.length > 0} 
+                pressEvent={setCurrentDealId}
+                perfromSearch={performSearch}
+              />
+            : <ChooseView
+                items={dealsState.searchDeals} 
+                isDataFetched={dealsState.deals.length > 0} 
+                pressEvent={setCurrentDealId}
+                perfromSearch={performSearch}
+              />
         }
       </>
     );
   }
 
 const apiHost = 'https://bakesaleforgood.com'
+
 
  async function fetchInitalDeals(){
     try{
@@ -53,6 +76,17 @@ const apiHost = 'https://bakesaleforgood.com'
 async function fetchDetailedDeal(dealId: string){
   try{
       let response = await fetch(apiHost + '/api/deals/' + dealId);
+      let responseJSON = await response.json();
+      return responseJSON;
+  }
+  catch(error){
+      console.log(error);
+  }
+}
+
+async function fetchSearchedDeals(searchTerm: string){
+  try{
+      let response = await fetch(apiHost + '/api/deals?searchTerm=' + searchTerm);
       let responseJSON = await response.json();
       return responseJSON;
   }
