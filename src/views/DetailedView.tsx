@@ -24,7 +24,7 @@ export default function DetailedView({headerMediaLink, title, price, cause, avat
             <TouchableOpacity onPress={handlePress}>
                 <Text>Back</Text>
             </TouchableOpacity>
-            <View style={styles.item}>
+            <View>
                 <Image source={{uri:headerMediaLink}}
                     style={styles.headerImage}
                 />

@@ -21,7 +21,6 @@ export default function DealsController() {
     }, [isViewingDetailedView])
 
     async function performSearch (searchTerm: string){
-      console.log(searchTerm)
       if (searchTerm === '') setSearchDeals(null);
       else setSearchDeals(await fetchSearchedDeals(searchTerm));
     }

@@ -1,4 +1,4 @@
-import { FlatList, Text } from 'react-native';
+import { FlatList,  } from 'react-native';
 import Item from './Item';
 type ItemsObject = {
   items: any,
@@ -9,8 +9,7 @@ type ItemsObject = {
 export default function ItemList({items, isDataFetched, pressEvent}: ItemsObject) {
   return (
     <>
-      { isDataFetched
-        ? <FlatList
+      <FlatList
         data = {items}
         renderItem={({item}) => 
           <Item 
@@ -22,8 +21,6 @@ export default function ItemList({items, isDataFetched, pressEvent}: ItemsObject
             pressEvent={pressEvent}
           />}
         />
-        : <Text>Fetcing</Text>
-        }
     </>
   );
 }

@@ -50,4 +50,18 @@ export const styles = StyleSheet.create({
     detailedView:{
       marginTop:30,
     },
+    fetch:{
+      fontSize: 40,
+      fontWeight: 'bold',
+    },
+    fetchView:{
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    searchbar:{
+      padding:10,
+      margin: 10,
+      borderWidth: 1
+    },
   });
