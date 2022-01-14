@@ -33,6 +33,7 @@ const dealsReducer = (state: any, action: actionType): stateType => {
       return {...state, detailedDeal}
     case 'UNSET_CURR_DEAL':
       state.currentDealId = null;
+      state.detailedDeal = null;
       return {...state};
     case 'SET_SERARCH_DEALS':
       const searchDeals = action.input;

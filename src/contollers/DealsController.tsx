@@ -6,9 +6,14 @@ import DetailedView from '../views/DetailedView';
 
 export default function DealsController() {
   const {dealsState, setInitalState, setCurrentDealId, setDetailDeal, unsetCurrentlDeal, setSearchDeals} = useDealsContext();
+  const isDetailDeal = dealsState.detailedDeal !== null && dealsState.detailedDeal !== undefined;
   const isViewingDetailedView = dealsState.currentDealId !== null;
   const currentDeal = dealsState.deals.find((deal: any) => deal.key === dealsState.currentDealId)
-  const isDetailDeal = dealsState.detailedDeal !== null;
+  async function setCurrentDealIdAndFetchDetails(dataKey:string){
+    setCurrentDealId(dataKey)
+    setDetailDeal(await fetchDetailedDeal(dataKey))
+  }
+  // console.log(dealsState.detailedDeal);
 
   useEffect(() => {
       const initDeals = async () => {
@@ -44,13 +49,13 @@ export default function DealsController() {
             ? <ChooseView
                 items={dealsState.deals} 
                 isDataFetched={dealsState.deals.length > 0} 
-                pressEvent={setCurrentDealId}
+                pressEvent={setCurrentDealIdAndFetchDetails}
                 perfromSearch={performSearch}
               />
             : <ChooseView
                 items={dealsState.searchDeals} 
                 isDataFetched={dealsState.deals.length > 0} 
-                pressEvent={setCurrentDealId}
+                pressEvent={setCurrentDealIdAndFetchDetails}
                 perfromSearch={performSearch}
               />
         }
