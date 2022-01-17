@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import {Text, View, Image, TouchableOpacity, PanResponder, Animated, Dimensions } from 'react-native';
+import {Text, View, Image, TouchableOpacity, PanResponder, Animated, Dimensions, Button, Linking } from 'react-native';
 import { useSwipeContext } from '../models/swipeContext';
 import {styles} from './stylesheet';
 
@@ -12,11 +12,12 @@ type ItemObject = {
     userTitle: string,
     description: string,
     backAction: Function,
+    purchaseURL: string
   }
 
 const centsToEuro = (centPrice: number) => {return`€${centPrice / 100}`}
 
-export default function DetailedView({headerMediaLink, title, price, cause, avatarMedialink, userTitle, description, backAction}: ItemObject) {
+export default function DetailedView({headerMediaLink, title, price, cause, avatarMedialink, userTitle, description, backAction, purchaseURL}: ItemObject) {
     function handlePress(){
         backAction()
     }
@@ -51,6 +52,10 @@ export default function DetailedView({headerMediaLink, title, price, cause, avat
         }).start()
     }
 
+    function linkURL(){
+        Linking.openURL(purchaseURL)
+    }
+
     return (
 
         <View style={styles.detailedView}>
@@ -75,6 +80,7 @@ export default function DetailedView({headerMediaLink, title, price, cause, avat
                         style={styles.avatar}
                     />
                     <Text style={styles.title}>{userTitle}</Text>
+                    <Button title="Buy this deal!" onPress={linkURL}/>
                 </View>
             </View>
       </View>

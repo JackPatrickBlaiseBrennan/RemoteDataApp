@@ -15,6 +15,7 @@ export default function DetailController() {
         };
         initDeals();
       }, [])
+
     return (
         <>
             {isDetailDeal &&
@@ -27,6 +28,7 @@ export default function DetailController() {
                     userTitle={dealsState.detailedDeal.user.name}
                     description={dealsState.detailedDeal.description}
                     backAction={unsetCurrentlDeal}
+                    purchaseURL={dealsState.detailedDeal.url}
                 /> 
             }
         </>  
