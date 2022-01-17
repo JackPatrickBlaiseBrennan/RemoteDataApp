@@ -1,4 +1,4 @@
-import {View, Text, Animated, Dimensions} from 'react-native';
+import {View, Text, Animated,} from 'react-native';
 import {styles, relativeWidth} from './stylesheet';
 import ItemList from './components- basic/ItemList';
 import SearchBar from './components- basic/SearchBar';
@@ -12,6 +12,7 @@ type ViewParameters = {
 }
 export default function ChooseView(this: any, {items, isDataFetched, pressEvent, perfromSearch}: ViewParameters) {
     const titleXPos = useRef(new Animated.Value(0)).current;
+    
     function animateFetching(goLeft: boolean){
         let value;
         if (goLeft) value = relativeWidth(-100);
@@ -21,7 +22,6 @@ export default function ChooseView(this: any, {items, isDataFetched, pressEvent,
                 if (finished)animateFetching(!goLeft);
             }
         );
-
     }
     useEffect(() => {
         animateFetching(true);

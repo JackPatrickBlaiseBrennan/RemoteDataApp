@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { DealsProvider } from '../models/dealsContext';
-import DealsController from './DealsController';
+import ViewController from './ViewController';
 
 export default function App() {
   return (
     <>
       <DealsProvider>
-        <DealsController></DealsController>
+          <ViewController></ViewController>
       </DealsProvider>
       <StatusBar style="auto" />
     </>

@@ -1,4 +1,6 @@
-import {Text, View, Image, TouchableOpacity } from 'react-native';
+import { useRef } from 'react';
+import {Text, View, Image, TouchableOpacity, PanResponder, Animated, Dimensions } from 'react-native';
+import { useSwipeContext } from '../models/swipeContext';
 import {styles} from './stylesheet';
 
 type ItemObject = {
@@ -18,6 +20,37 @@ export default function DetailedView({headerMediaLink, title, price, cause, avat
     function handlePress(){
         backAction()
     }
+    const {swipeState, incrementIndex, decrementIndex} = useSwipeContext();
+    
+    const imageXPos = useRef(new Animated.Value(0)).current;
+
+    const panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onPanResponderMove: (evt, gs) => {
+            imageXPos.setValue(gs.dx);
+        },
+        onPanResponderRelease: (evt, gs) => {
+            let width = Dimensions.get('window').width;
+            if(Math.abs(gs.dx) > (0.4 * width)){
+                let direction = Math.sign(gs.dx);
+                Animated.timing(imageXPos,{toValue: direction * width, useNativeDriver: false}).start(()=>handleSwipe(-1 * direction * width)) 
+            }
+            else Animated.timing(imageXPos,{toValue: 0, useNativeDriver: false}).start(); 
+        },
+    })
+
+    function handleSwipe(location: number){
+        if (location > 0){
+            incrementIndex()
+        }
+        else decrementIndex()
+        imageXPos.setValue(location);
+        Animated.spring(imageXPos,{
+            toValue: 0,
+            useNativeDriver: false
+        }).start()
+    }
+
     return (
 
         <View style={styles.detailedView}>
@@ -25,8 +58,10 @@ export default function DetailedView({headerMediaLink, title, price, cause, avat
                 <Text>Back</Text>
             </TouchableOpacity>
             <View>
-                <Image source={{uri:headerMediaLink}}
-                    style={styles.headerImage}
+                <Animated.Image 
+                    {...panResponder.panHandlers}
+                    source={{uri:headerMediaLink}}
+                    style={[{left: imageXPos},styles.headerImage]}
                 />
                 <View style={styles.info}>
                     <View style={styles.footerDetailed}>
