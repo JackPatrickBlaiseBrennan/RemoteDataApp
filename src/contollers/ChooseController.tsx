@@ -13,7 +13,6 @@ export default function DetailController() {
         };
         initDeals();
       }, [])
-      console.log(dealsState.deals)
 
     async function setCurrentDealIdAndFetchDetails(dataKey:string){
         setCurrentDealId(dataKey)
@@ -26,7 +25,6 @@ export default function DetailController() {
     return (
         <>{dealsState.deals == "Error"  ? 
         <ErrorView/>
-            
             :  dealsState.deals.length > 0
                 ? <ChooseView
                     items={displayDeals ? dealsState.deals : dealsState.searchDeals} 
@@ -45,12 +43,14 @@ async function fetchInitalDeals(){
     try{
         let response = await fetch(apiHost + '/api/deals');
         var responseJSON;
+    //   have to check for error for App
         if (response.ok) responseJSON = await response.json();
         else responseJSON = "Error";
         return responseJSON
     }
     catch(error){
         console.log(error);
+        return "Error";
     }
 }
 
@@ -58,11 +58,13 @@ async function fetchSearchedDeals(searchTerm: string){
   try{
       let response = await fetch(apiHost + '/api/deals?searchTerm=' + searchTerm);
       var responseJSON;
+    //   have to check for error for App
       if (response.ok) responseJSON = await response.json();
       else responseJSON = "Error";
       return responseJSON;
   }
   catch(error){
       console.log(error);
+      return "Error";
   }
 }
