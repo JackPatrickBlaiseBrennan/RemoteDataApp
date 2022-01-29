@@ -2,11 +2,10 @@ import { FlatList,  } from 'react-native';
 import Item from './Item';
 type ItemsObject = {
   items: any,
-  isDataFetched: boolean,
   pressEvent: Function,
 }
 
-export default function ItemList({items, isDataFetched, pressEvent}: ItemsObject) {
+export default function ItemList({items, pressEvent}: ItemsObject) {
   return (
     <>
       <FlatList

@@ -1,15 +1,8 @@
 import {View, Text, Animated,} from 'react-native';
 import {styles, relativeWidth} from './stylesheet';
-import ItemList from './components- basic/ItemList';
-import SearchBar from './components- basic/SearchBar';
 import { useEffect, useRef } from 'react';
 
-type ViewParameters = {
-    items: any
-    pressEvent: Function
-    perfromSearch: Function
-}
-export default function ChooseView(this: any, {items, pressEvent, perfromSearch}: ViewParameters) {
+export default function FetchView(this: any) {
     const titleXPos = useRef(new Animated.Value(0)).current;
     
     function animateFetching(goLeft: boolean){
@@ -27,11 +20,9 @@ export default function ChooseView(this: any, {items, pressEvent, perfromSearch}
       }, [])
     return (
     <View style={styles.list}>
-
-        <SearchBar
-            performSearch={perfromSearch}
-        />
-        <ItemList items={items} pressEvent={pressEvent}/>
+        <Animated.View style={[{left: titleXPos}, styles.fetchView]}>
+            <Text style={styles.fetch}>Fetcing</Text>
+        </Animated.View>
     </View>
     );
   }

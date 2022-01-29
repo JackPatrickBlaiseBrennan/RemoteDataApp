@@ -1,6 +1,8 @@
 import ChooseView from '../views/ChooseView';
 import { useDealsContext } from "../models/dealsContext";
 import { useEffect } from 'react';
+import FetchView from '../views/FetchView';
+import ErrorView from '../views/ErrorView';
 
 export default function DetailController() {
     const {dealsState, setInitalState, setCurrentDealId, setSearchDeals} = useDealsContext();
@@ -11,6 +13,7 @@ export default function DetailController() {
         };
         initDeals();
       }, [])
+      console.log(dealsState.deals)
 
     async function setCurrentDealIdAndFetchDetails(dataKey:string){
         setCurrentDealId(dataKey)
@@ -21,20 +24,16 @@ export default function DetailController() {
         else setSearchDeals(await fetchSearchedDeals(searchTerm));
     }
     return (
-        <>
-            {displayDeals 
-            ? <ChooseView
-                items={dealsState.deals} 
-                isDataFetched={dealsState.deals.length > 0} 
-                pressEvent={setCurrentDealIdAndFetchDetails}
-                perfromSearch={performSearch}
-              />
-            : <ChooseView
-                items={dealsState.searchDeals} 
-                isDataFetched={dealsState.deals.length > 0} 
-                pressEvent={setCurrentDealIdAndFetchDetails}
-                perfromSearch={performSearch}
-              />
+        <>{dealsState.deals == "Error"  ? 
+        <ErrorView/>
+            
+            :  dealsState.deals.length > 0
+                ? <ChooseView
+                    items={displayDeals ? dealsState.deals : dealsState.searchDeals} 
+                    pressEvent={setCurrentDealIdAndFetchDetails}
+                    perfromSearch={performSearch}
+                /> 
+                : <FetchView/>
             }
         </>  
     )
@@ -45,7 +44,9 @@ const apiHost = 'https://bakesaleforgood.com';
 async function fetchInitalDeals(){
     try{
         let response = await fetch(apiHost + '/api/deals');
-        let responseJSON = await response.json();
+        var responseJSON;
+        if (response.ok) responseJSON = await response.json();
+        else responseJSON = "Error";
         return responseJSON
     }
     catch(error){
@@ -56,7 +57,9 @@ async function fetchInitalDeals(){
 async function fetchSearchedDeals(searchTerm: string){
   try{
       let response = await fetch(apiHost + '/api/deals?searchTerm=' + searchTerm);
-      let responseJSON = await response.json();
+      var responseJSON;
+      if (response.ok) responseJSON = await response.json();
+      else responseJSON = "Error";
       return responseJSON;
   }
   catch(error){

@@ -73,4 +73,9 @@ export const styles = StyleSheet.create({
       margin: relativeWidth(10),
       borderWidth: 1
     },
+    error:{
+      fontSize: relativeWidth(40),
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
   });
